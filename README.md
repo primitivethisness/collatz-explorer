@@ -18,8 +18,8 @@ its length (assuming that the orbit ends when the value 1 is attained).
 
 The motivation for this project does not come from practical necessity; 
 it's just intended as a fun little side project to improve my computing
-skills. So far, the functions in this project can compute this statistics for numbers
-between 1 and $10^8$, but I intend to improve this by using different libraries (so far,
+skills. So far, the functions in this project can compute these statistics for numbers
+between 1 and $10^8$, but I intend to improve this by using other python modules (so far,
 only numpy is involved).
 
 Thank you for your interest and let me know if I can help you with anything!
