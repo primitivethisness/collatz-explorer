@@ -1,8 +1,4 @@
-from functools import reduce
-
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 
 file_name = "prueba.csv"
 
@@ -12,6 +8,7 @@ num_values = 10**8
 x = np.arange(1, num_values+1)
 
 # Max, means, lengths
+
 seeds = x.copy()
 maxs = x.copy()
 means = x.copy()
@@ -19,6 +16,7 @@ lengths = np.ones(shape=x.shape)
 
 dicts = []
 for i in range(1, num_iters):
+
     # Add statistics of values equal to 1 to a df
     
     ones = x == 1
@@ -47,14 +45,10 @@ for i in range(1, num_iters):
     x = x[not_ones]
     
     # Perform the collatz iteration
-    prev = x.copy()    
+
     x = np.where(x%2==1,
-                3*x+1,
-                x)
-    
-    x = np.where(prev%2==0,
-                prev/2,
-                x)
+                (3*x+1)/2,
+                x/2)
     
     # Update maxs
     
@@ -69,12 +63,10 @@ for i in range(1, num_iters):
     
     lengths = lengths + 1
 
-dfs = [pd.DataFrame(_dict) for _dict in dicts]
-
 with open(file_name, "w") as f:
     f.write("seed|max|mean|length\n")
 
-    for df in dfs:
+    for df in dicts:
         for seed, _max, mean, length in list(zip(df["seed"],
                                                  df["max"],
                                                  df["mean"],
