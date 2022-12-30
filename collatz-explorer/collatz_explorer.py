@@ -7,23 +7,21 @@ Currently, the statistics that are supported are:
 
 To execute the script, modify the parameters `num_elements`
 and `num_iterations` in the main loop and specify the output
-directory, which should be a level above this script:
-    ..
-    |
-    |
-    -- collatz-explorer/
-       |
-       |__ collatz_explorer.py
-    |
-    |
-    -- output_dir/
+directory via the `output_dir` variable.
 """
 
 import os
+import sys
 from typing import Tuple
 
 import dask.array as da
 import dask.dataframe as dd
+
+
+# Set recursion limit
+RECURSION_LIMIT = 2000
+sys.setrecursionlimit(RECURSION_LIMIT)
+
 
 def collatz(array: da.Array) -> da.Array:
     """
@@ -106,9 +104,11 @@ def collatz_iterator(state_array: da.Array,
 
 if __name__ == "__main__":
     # Input parameters
-    num_elements = 10**2
-    num_iterations = 10**1
-    output_dir = "data"
+    num_elements = 10**9
+    num_iterations = 10**3
+    output_dir = os.path.join("..",
+                              "data",
+                              f"collatz_stats_{num_elements}_part_*.csv")
 
     # Generate input values
     initial_state = da.arange(1, num_elements+1)
@@ -125,9 +125,7 @@ if __name__ == "__main__":
                              columns=["seed", "max"])
 
     # Write CSV to disk
-    ddf.to_csv(os.path.join("..",
-                            output_dir,
-                            f"collatz_stats_{num_elements}_part_*.csv"),
+    ddf.to_csv(os.path.join(output_dir),
                sep="|",
                header=True,
                index=False)
