@@ -38,9 +38,10 @@ def collatz(array: da.Array) -> da.Array:
         The result of applying the Collatz transformation to
         the array passed as a parameter element-wise.
     """
-    return da.where((array%2==1) & (array!=1),
+    ones = array == 1
+    return da.where((array%2==1) & ~ones,
                     (3*array+1)/2,
-                    da.where(array==1,
+                    da.where(ones,
                             array,
                             array/2)
                    )
